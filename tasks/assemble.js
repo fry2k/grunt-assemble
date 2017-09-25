@@ -112,6 +112,13 @@ module.exports = function(grunt) {
 
         partials.forEach(function(filepath) {
           var filename = path.basename(filepath, path.extname(filepath));
+          if (assemble.options.fullPartialName != null) {
+            if (typeof assemble.options.fullPartialName === 'string') {
+              filename = filepath.replace(new RegExp('^'+assemble.options.fullPartialName+'(.*?)[^\/]+$'), '$1')+filename;
+            } else {
+              filename = filepath.replace(new RegExp('\/[^\/]+$'), '/')+filename;
+            }
+          }
           grunt.verbose.ok(('Processing ' + filename.cyan + ' partial'));
 
           var partial = grunt.file.read(filepath);
